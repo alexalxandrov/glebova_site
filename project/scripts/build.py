@@ -354,6 +354,19 @@ def main() -> int:
         parser = PageParser()
         parser.feed(raw)
         rel = page.relative_to(dist).as_posix()
+        nav_match = re.search(r'<nav class="primary-nav" aria-label="Основная навигация">[\\s\\S]*?</nav>', raw)
+        if not nav_match:
+            errors.append(f"{rel}: primary navigation is missing")
+        else:
+            nav_html = nav_match.group(0)
+            nav_links = re.findall(r'<a class="nav-link" href=', nav_html)
+            if len(nav_links) != 8:
+                errors.append(f"{rel}: expected 8 visible primary navigation links, found {len(nav_links)}")
+            for label in ("Главная", "Практика", "Цены и оплата", "Порядок работы", "Обо мне", "Оформление поручения", "Публикации", "Контакты"):
+                if label not in nav_html:
+                    errors.append(f"{rel}: primary navigation label is missing: {label}")
+        if '<details class="mobile-nav">' in raw:
+            errors.append(f"{rel}: primary navigation must not be hidden in a collapsed disclosure")
         if not parser.has_lang:
             errors.append(f"{rel}: html lang=ru is missing")
         if not parser.has_title:
