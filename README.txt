@@ -1,6 +1,6 @@
 Новая версия сайта адвоката Елены Глебовой
 
-Исходники сайта находятся в каталоге project/. Корневые HTML-файлы, assets, robots.txt и sitemap.xml — актуальная тестовая preview-сборка из project/. GitHub Actions автоматически пересобирает и синхронизирует корневую копию после изменений в исходниках и проверяет её совпадение со сборкой.
+Исходники сайта находятся в каталоге project/. Корневые HTML-файлы, assets, robots.txt и sitemap.xml — актуальная тестовая preview-сборка из project/. Корневая копия — preview-сборка. Сборку следует выполнять вручную скриптом project/scripts/build.py; автоматический GitHub Actions workflow в репозитории не настроен.
 
 ВАЖНО: корневая preview-сборка сформирована с тестовым origin https://qa.invalid, содержит noindex,nofollow и закрывающий robots.txt. Она предназначена для проверки изменений и НЕ является production-релизом. Перед размещением на реальном домене соберите production-комплект:
   python3 project/scripts/build.py --origin https://ВАШ-ДОМЕН.ru --out ./production
