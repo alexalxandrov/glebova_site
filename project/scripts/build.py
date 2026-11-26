@@ -342,7 +342,7 @@ def main() -> int:
             raw = raw.replace("</footer>", footer_note + "</footer>", 1)
         raw = raw.replace("Документы и соглашения", "Оформление поручения")
         # Keep primary navigation visible at every viewport; CSS changes its layout, not its visibility.
-if "consumer-penalty-damages-2021-2026" in page.as_posix():
+        if "consumer-penalty-damages-2021-2026" in page.as_posix():
             raw = re.sub(r'<meta name="robots" content="[^"]*">', '<meta name="robots" content="noindex,follow">', raw, count=1, flags=re.I)
         # Test builds must not be indexable even if a page template says index,follow.
         if is_test_origin or page.name == "404.html":
