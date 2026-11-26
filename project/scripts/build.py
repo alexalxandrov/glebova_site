@@ -28,6 +28,7 @@ FORBIDDEN = [
     "уголовные дела", "защита по уголовным делам", "юридическая компания", "юридическая фирма",
     "публичная оферта", "акцепт оферты", "загрузить документы", "прикрепить файл",
     "бесплатная консультация", "первая консультация бесплатно", "получить бесплатную консультацию",
+    "ознакомительная консультация по телефону",
     "бесплатный анализ документов", "бесплатная юридическая консультация",
 ]
 
@@ -329,17 +330,8 @@ def main() -> int:
         raw = add_person_and_service_schema(raw, page, dist)
         raw = enhance_article(raw, page, dist)
         raw = localize_html_urls(raw, page, dist)
-        # The fee distinction belongs on the remuneration page, not in every page footer.
+        # Remove legacy footer notes; the distinction is now explained in the relevant page content.
         raw = re.sub(r'<div class="container footer-brief-note">.*?</div>', '', raw, flags=re.S)
-        rel_path = page.relative_to(dist).as_posix()
-        if rel_path == "remuneration/index.html" and "</footer>" in raw:
-            footer_note = (
-                '<div class="container footer-brief-note"><p><strong>Ознакомительная консультация по телефону — бесплатно.</strong> '
-                'Это краткое организационное обсуждение общей категории обращения, возможного объёма правовой помощи, стоимости и записи; '
-                'без изучения документов и рекомендаций по существу. '
-                '<strong>Развёрнутая консультация (до 1 часа) — 3 500 ₽.</strong></p></div>'
-            )
-            raw = raw.replace("</footer>", footer_note + "</footer>", 1)
         raw = raw.replace("Документы и соглашения", "Оформление поручения")
         # Keep primary navigation visible at every viewport; CSS changes its layout, not its visibility.
         if "consumer-penalty-damages-2021-2026" in page.as_posix():
@@ -378,10 +370,14 @@ def main() -> int:
         if parser.h1_count != 1:
             errors.append(f"{rel}: expected exactly one h1, found {parser.h1_count}")
         if rel == "remuneration/index.html":
-            if "Ознакомительная консультация по телефону" not in raw or "бесплатно" not in raw:
-                errors.append(f"{rel}: free introductory phone consultation wording is missing")
-            if "Развёрнутая консультация (до 1 часа)" not in raw or "3 500 ₽" not in raw:
-                errors.append(f"{rel}: paid consultation wording or fee is missing")
+            if "Предварительная беседа по телефону" not in raw or "бесплатно" not in raw:
+                errors.append(f"{rel}: free preliminary phone conversation wording is missing")
+            if "не является юридической консультацией" not in raw:
+                errors.append(f"{rel}: preliminary conversation must be distinguished from legal consultation")
+            if "Юридическая консультация (до 1 часа)" not in raw or "3 500 ₽" not in raw:
+                errors.append(f"{rel}: paid legal consultation wording or fee is missing")
+            if "Ознакомительная консультация по телефону" in raw:
+                errors.append(f"{rel}: preliminary conversation is incorrectly labelled as a consultation")
             if re.search(r"(?<![А-Яа-яЁё])Я(?=[\\s,.:—])", raw):
                 errors.append(f"{rel}: first-person pronoun remains in the fee page")
         if parser.form_count:
