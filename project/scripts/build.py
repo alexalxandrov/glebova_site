@@ -103,10 +103,10 @@ def _mask_editorial_blocks(raw: str, page: Path) -> tuple[str, list[str]]:
 
     def find_ranges(tag: str, class_name: str) -> None:
         opener = re.compile(
-            rf'<{tag}\\b[^>]*\\bclass=["\\'][^"\\']*\\b{re.escape(class_name)}\\b[^"\\']*["\\'][^>]*>',
+            rf'<{tag}\b[^>]*\bclass=["\'][^"\']*\b{re.escape(class_name)}\b[^"\']*["\'][^>]*>',
             re.I,
         )
-        token = re.compile(rf'</?{tag}\\b[^>]*>', re.I)
+        token = re.compile(rf'</?{tag}\b[^>]*>', re.I)
         for opening in opener.finditer(raw):
             depth = 0
             for match in token.finditer(raw, opening.start()):
@@ -147,7 +147,7 @@ def polish_editorial_copy(raw: str, page: Path) -> str:
 
     # Remove the narrow information strip and the redundant subtitle under the name.
     raw = re.sub(
-        r'<div class="topline">\\s*<div class="container topline-inner">[\\s\\S]*?</div>\\s*</div>\\s*',
+        r'<div class="topline">\s*<div class="container topline-inner">[\s\S]*?</div>\s*</div>\s*',
         '',
         raw,
         flags=re.I,
@@ -157,8 +157,8 @@ def polish_editorial_copy(raw: str, page: Path) -> str:
     if header_start >= 0 and header_end > header_start:
         header = raw[header_start:header_end]
         header = re.sub(
-            r'(<span class="brand-text"><strong>[^<]*</strong>)\\s*<small>[^<]*</small>',
-            r'\\1',
+            r'(<span class="brand-text"><strong>[^<]*</strong>)\s*<small>[^<]*</small>',
+            r'\1',
             header,
             count=1,
         )
@@ -260,6 +260,17 @@ def polish_editorial_copy(raw: str, page: Path) -> str:
             "Без предварительного согласования не следует направлять по электронной почте подробное описание дела, паспортные данные, сведения о здоровье, судебные документы и материалы с персональными данными других лиц. Загрузка документов на сайте не предусмотрена.",
         )
 
+    # The biography starts with the professional role; the name is already in the page title.
+    if page.as_posix().endswith("about/index.html"):
+        raw = raw.replace(
+            "Меня зовут Елена Алексеевна Глебова. Осуществляю адвокатскую деятельность в Адвокатской палате Московской области. Представляю доверителей в судах, провожу правовую аналитику, проверяю договоры и готовлю правовые позиции.",
+            "Осуществляю адвокатскую деятельность в Адвокатской палате Московской области. Представляю доверителей в судах.",
+        )
+        raw = raw.replace(
+            "Я окончила Московскую государственную юридическую академию в 2000 году",
+            "Окончила Московскую государственную юридическую академию в 2000 году",
+        )
+
     # The phone conversation and its limits are explained once on the process page.
     if page.as_posix().endswith("working-process/index.html"):
         raw = raw.replace(
@@ -276,9 +287,9 @@ def polish_editorial_copy(raw: str, page: Path) -> str:
             raw = raw[:position] + raw[position + len(repeated):]
 
     # Remove the explicit pronoun in editorial copy while leaving the first-person verb intact.
-    raw = re.sub(r'(>\\s*)[Яя]\\s+([а-яё])', lambda m: m.group(1) + m.group(2).upper(), raw)
-    raw = re.sub(r'([.!?]\\s+)[Яя]\\s+([а-яё])', lambda m: m.group(1) + m.group(2).upper(), raw)
-    raw = re.sub(r'(?<![A-Za-zА-Яа-яЁё0-9_])[Яя]\\s+', '', raw)
+    raw = re.sub(r'(>\s*)[Яя]\s+([а-яё])', lambda m: m.group(1) + m.group(2).upper(), raw)
+    raw = re.sub(r'([.!?]\s+)[Яя]\s+([а-яё])', lambda m: m.group(1) + m.group(2).upper(), raw)
+    raw = re.sub(r'(?<![A-Za-zА-Яа-яЁё0-9_])[Яя]\s+', '', raw)
 
     # Restore legal examples, answers and article text exactly as authored.
     for marker, block in protected:
