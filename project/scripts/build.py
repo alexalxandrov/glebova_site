@@ -329,8 +329,10 @@ def main() -> int:
         raw = add_person_and_service_schema(raw, page, dist)
         raw = enhance_article(raw, page, dist)
         raw = localize_html_urls(raw, page, dist)
-        # The distinction between the free organisational call and paid legal advice is visible site-wide.
-        if "</footer>" in raw and "footer-brief-note" not in raw:
+        # The fee distinction belongs on the remuneration page, not in every page footer.
+        raw = re.sub(r'<div class="container footer-brief-note">.*?</div>', '', raw, flags=re.S)
+        rel_path = page.relative_to(dist).as_posix()
+        if rel_path == "remuneration/index.html" and "</footer>" in raw:
             footer_note = (
                 '<div class="container footer-brief-note"><p><strong>Ознакомительная консультация по телефону — бесплатно.</strong> '
                 'Это краткое организационное обсуждение общей категории обращения, возможного объёма правовой помощи, стоимости и записи; '
@@ -338,6 +340,7 @@ def main() -> int:
                 '<strong>Развёрнутая консультация (до 1 часа) — 3 500 ₽.</strong></p></div>'
             )
             raw = raw.replace("</footer>", footer_note + "</footer>", 1)
+        raw = raw.replace("Документы и соглашения", "Оформление поручения")
         # Native disclosure navigation keeps the mobile header compact without JavaScript.
         nav_pattern = re.compile(r'<nav class="primary-nav" aria-label="Основная навигация">.*?</nav>', re.S)
         raw = nav_pattern.sub(lambda match: '<details class="mobile-nav"><summary>Меню</summary>' + match.group(0) + '</details>', raw, count=1)
