@@ -735,7 +735,7 @@ body:not(.page-remuneration) .footer-brief-note { display: none !important; }
 .site-header .nav-link { padding: 10px 0; font-size: 12px; white-space: nowrap; }
 .site-header .nav-link[href*="remuneration/"] { color: var(--navy); font-weight: 800; }
 .site-header .header-call { justify-self: end; }
-@media (max-width: 1200px) {
+@media (max-width: 1260px) {
   .site-header .header-inner { grid-template-columns: minmax(0, 1fr) auto; min-height: 0; padding-block: 13px 10px; row-gap: 10px; }
   .site-header .primary-nav { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0 10px; padding-top: 8px; border-top: 1px solid var(--border); }
   .site-header .nav-link { display: flex; min-height: 36px; align-items: center; justify-content: center; text-align: center; white-space: normal; font-size: 11.5px; line-height: 1.35; }
@@ -771,7 +771,7 @@ body:not(.page-remuneration) .footer-brief-note { display: none !important; }
 .site-header .brand { grid-area: brand; }
 .site-header .primary-nav { grid-area: nav; }
 .site-header .header-call { grid-area: call; }
-@media (max-width: 1200px) {
+@media (max-width: 1260px) {
   .site-header .header-inner { grid-template-areas: "brand call" "nav nav"; }
 }
 
@@ -897,3 +897,9 @@ body:not(.page-remuneration) .footer-brief-note { display: none !important; }
 
 /* Header navigation: contact actions stay on the dedicated page/footer, not beside the call CTA. */
 .site-header .primary-nav > .nav-link[href*="contacts/"] { display: none !important; }
+
+
+/* Keep the final navigation item clear of the call action on single-row desktop headers. */
+@media (min-width: 1261px) {
+  .site-header .primary-nav { gap: 6px; }
+}

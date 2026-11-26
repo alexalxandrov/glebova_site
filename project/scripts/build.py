@@ -333,7 +333,7 @@ def main() -> int:
         # Remove legacy footer notes; the distinction is now explained in the relevant page content.
         raw = re.sub(r'<div class="container footer-brief-note">.*?</div>', '', raw, flags=re.S)
         raw = raw.replace("Документы и соглашения", "Оформление поручения")
-        # Keep primary navigation visible at every viewport; CSS changes its layout, not its visibility.
+        # Preserve all eight navigation routes in the HTML; the Contacts item is intentionally hidden in the header to leave room for the call action.
         if "consumer-penalty-damages-2021-2026" in page.as_posix():
             raw = re.sub(r'<meta name="robots" content="[^"]*">', '<meta name="robots" content="noindex,follow">', raw, count=1, flags=re.I)
         # Test builds must not be indexable even if a page template says index,follow.
@@ -353,7 +353,7 @@ def main() -> int:
             nav_html = nav_match.group(0)
             nav_links = re.findall(r'<a class="nav-link" href=', nav_html)
             if len(nav_links) != 8:
-                errors.append(f"{rel}: expected 8 visible primary navigation links, found {len(nav_links)}")
+                errors.append(f"{rel}: expected 8 primary navigation anchors in HTML (7 are displayed in the header), found {len(nav_links)}")
             for label in ("Главная", "Практика", "Цены и оплата", "Порядок работы", "Обо мне", "Оформление поручения", "Публикации", "Контакты"):
                 if label not in nav_html:
                     errors.append(f"{rel}: primary navigation label is missing: {label}")
