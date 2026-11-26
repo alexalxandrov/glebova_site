@@ -21,7 +21,7 @@
 | Сопровождение бизнеса | `practice/pravovoe-soprovozhdenie-biznesa/index.html` |
 | Порядок работы | `working-process/index.html` |
 | Вознаграждение | `remuneration/index.html` |
-| Документы | `documents/index.html` |
+| Оформление поручения | `documents/index.html` |
 | Контакты | `contacts/index.html` |
 
 ## Визуальные настройки
