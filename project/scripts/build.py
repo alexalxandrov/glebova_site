@@ -354,7 +354,7 @@ def main() -> int:
         parser = PageParser()
         parser.feed(raw)
         rel = page.relative_to(dist).as_posix()
-        nav_match = re.search(r'<nav class="primary-nav" aria-label="Основная навигация">[\\s\\S]*?</nav>', raw)
+        nav_match = re.search(r'(?s)<nav class="primary-nav" aria-label="Основная навигация">.*?</nav>', raw)
         if not nav_match:
             errors.append(f"{rel}: primary navigation is missing")
         else:
