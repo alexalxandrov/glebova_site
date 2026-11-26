@@ -341,10 +341,8 @@ def main() -> int:
             )
             raw = raw.replace("</footer>", footer_note + "</footer>", 1)
         raw = raw.replace("Документы и соглашения", "Оформление поручения")
-        # Native disclosure navigation keeps the mobile header compact without JavaScript.
-        nav_pattern = re.compile(r'<nav class="primary-nav" aria-label="Основная навигация">.*?</nav>', re.S)
-        raw = nav_pattern.sub(lambda match: '<details class="mobile-nav"><summary>Меню</summary>' + match.group(0) + '</details>', raw, count=1)
-        if "consumer-penalty-damages-2021-2026" in page.as_posix():
+        # Keep primary navigation visible at every viewport; CSS changes its layout, not its visibility.
+if "consumer-penalty-damages-2021-2026" in page.as_posix():
             raw = re.sub(r'<meta name="robots" content="[^"]*">', '<meta name="robots" content="noindex,follow">', raw, count=1, flags=re.I)
         # Test builds must not be indexable even if a page template says index,follow.
         if is_test_origin or page.name == "404.html":
