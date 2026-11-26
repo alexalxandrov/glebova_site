@@ -718,3 +718,8 @@ img { max-width: 100%; height: auto; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+.price-scope { margin: 28px 0 18px; padding: 26px 30px; border: 1px solid rgba(180,154,112,.32); background: linear-gradient(135deg, rgba(255,255,255,.88), rgba(245,244,240,.72)); }
+.price-scope h2 { margin: 0 0 12px; color: var(--navy); font-family: var(--serif); font-size: clamp(24px, 3vw, 32px); font-weight: 500; }
+.price-scope p { max-width: 900px; margin: 9px 0; color: #4f5a67; }
+@media (max-width: 640px) { .price-scope { margin-inline: -2px; padding: 20px; } }
