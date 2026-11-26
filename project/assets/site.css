@@ -710,3 +710,7 @@ body:not(.page-remuneration) .footer-brief-note { display: none !important; }
 .consultation-disclosure > summary:focus-visible { outline: 3px solid var(--gold); outline-offset: -4px; }
 @media (max-width: 640px) { .consultation-disclosure > summary { padding: 15px 44px 15px 15px; } .consultation-disclosure__body { padding: 16px; } }
 .page-remuneration .footer-brief-note { display: block !important; }
+
+/* Final cascade: glass is reserved for the sticky navigation, not content panels. */
+.site-header { background: rgba(248,247,243,.76); border-bottom: 1px solid rgba(180,154,112,.34); box-shadow: 0 10px 30px rgba(23,43,70,.065), inset 0 1px 0 rgba(255,255,255,.72); -webkit-backdrop-filter: saturate(170%) blur(18px); backdrop-filter: saturate(170%) blur(18px); }
+@media (max-width: 820px) { .site-header { background: rgba(248,247,243,.88); -webkit-backdrop-filter: saturate(155%) blur(14px); backdrop-filter: saturate(155%) blur(14px); } }
