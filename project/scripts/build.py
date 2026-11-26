@@ -16,7 +16,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_ITEMS = [
     "index.html", "404.html", "favicon.svg", "robots.txt",
-    "assets", "about", "practice", "working-process", "remuneration", "documents", "contacts", "articles",
+    "assets", "about", "practice", "working-process", "remuneration", "documents", "contacts", "articles", "privacy-policy",
 ]
 FORBIDDEN = [
     "адрес офиса", "адрес адвокатского кабинета", "пресненский",
