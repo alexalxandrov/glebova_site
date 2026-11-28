@@ -1075,7 +1075,7 @@ body:not(.page-remuneration) .footer-brief-note { display: none !important; }
 .recognition-copy h2 { margin: 13px 0 20px; color: var(--navy); font-family: var(--serif); font-size: clamp(31px, 3.6vw, 43px); font-weight: 500; line-height: 1.15; letter-spacing: -.03em; }
 .recognition-copy p { max-width: 620px; color: var(--slate); }
 .recognition-copy .small-note { margin-top: 20px; }
-.recognition-document { width: 100%; max-width: 360px; justify-self: center; margin: 0; padding: 11px; border: 1px solid rgba(180,154,112,.46); background: #f7f4ec; box-shadow: 12px 14px 0 rgba(23,43,70,.055), 0 12px 32px rgba(23,43,70,.08); }
+.recognition-document { width: 100%; max-width: 290px; justify-self: center; margin: 0; padding: 11px; border: 1px solid rgba(180,154,112,.46); background: #f7f4ec; box-shadow: 12px 14px 0 rgba(23,43,70,.055), 0 12px 32px rgba(23,43,70,.08); }
 .recognition-document a { display: block; }
 .recognition-document img { display: block; width: 100%; height: auto; border: 1px solid rgba(23,43,70,.12); }
 .recognition-document figcaption { padding: 10px 4px 1px; color: #746b5d; font-size: 10px; line-height: 1.5; text-align: center; }
@@ -1085,5 +1085,5 @@ body:not(.page-remuneration) .footer-brief-note { display: none !important; }
 }
 @media (max-width: 560px) {
   .recognition-section { padding-block: 54px; }
-  .recognition-document { max-width: min(82vw, 310px); }
+  .recognition-document { max-width: min(82vw, 290px); }
 }
