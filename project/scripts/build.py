@@ -439,7 +439,7 @@ def resolve_local(path: str, dist: Path, page: Path) -> bool:
 
 def replace_header_contact(raw: str) -> str:
     """Replace the direct-call header CTA with an accessible, no-JS contact menu."""
-    pattern = r'<a\\b(?=[^>]*\\bclass=["\\\']header-call["\\\'])[^>]*>[\\s\\S]*?</a>'
+    pattern = r'<a class="header-call"[^>]*>[\s\S]*?</a>'
     return re.sub(pattern, lambda _: '''<details class="header-contact">
   <summary class="header-call"><span class="call-icon" aria-hidden="true">↗</span><span>Связаться</span><span class="header-contact-caret" aria-hidden="true">⌄</span></summary>
   <div class="header-contact-menu" aria-label="Способы связи">
